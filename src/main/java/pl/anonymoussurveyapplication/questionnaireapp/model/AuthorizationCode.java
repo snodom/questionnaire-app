@@ -10,11 +10,11 @@ public class AuthorizationCode {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
-    private Long id_authorization_code;
+    private Long idAuthorizationCode;
 
     @Column
     @NotNull
-    private String authorization_code;
+    private String authorizationCode;
 
     @Column
     @NotNull
@@ -28,18 +28,18 @@ public class AuthorizationCode {
     }
 
     public AuthorizationCode(AuthorizationCode authorizationCode) {
-        this.authorization_code=getAuthorization_code();
-        this.id_authorization_code=getId_authorization_code();
+        this.authorizationCode = getAuthorizationCode();
+        this.idAuthorizationCode = getIdAuthorizationCode();
         this.used=getUsed();
         this.questionnaire =getQuestionnaire();
     }
 
-    public String getAuthorization_code() {
-        return authorization_code;
+    public String getAuthorizationCode() {
+        return authorizationCode;
     }
 
-    public void setAuthorization_code(String authorization_code) {
-        this.authorization_code = authorization_code;
+    public void setAuthorizationCode(String authorization_code) {
+        this.authorizationCode = authorization_code;
     }
 
     public Boolean getUsed() {
@@ -50,8 +50,8 @@ public class AuthorizationCode {
         this.used = used;
     }
 
-    public Long getId_authorization_code() {
-        return id_authorization_code;
+    public Long getIdAuthorizationCode() {
+        return idAuthorizationCode;
     }
 
     public Questionnaire getQuestionnaire() {

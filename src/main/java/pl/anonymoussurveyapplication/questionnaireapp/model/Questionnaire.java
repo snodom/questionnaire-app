@@ -5,39 +5,38 @@ import java.util.List;
 
 @Table(name= "questionnaires")
 @Entity
-public class Questionnaire {
+public class  Questionnaire {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
-    private Long questionnaire_id;
+    private Long questionnaireId;
 
     @Column
-    private String questionnaire_name;
+    private String questionnaireName;
 
-    @OneToMany
-    @JoinColumn(name = "id_questionnaire", referencedColumnName="questionnaire_id")
+    @OneToMany(mappedBy = "questionnaire")
     private List<Question> questionList;
 
 
-    @OneToMany(mappedBy = "questionnaire")
+    @OneToMany(mappedBy = "questionnaire",cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<AuthorizationCode> authorizationCodeList;
 
     public Questionnaire(){
     }
 
     public Questionnaire(Questionnaire questionnaire) {
-        this.questionnaire_id=questionnaire.getQuestionnaire_id();
-        this.questionnaire_name=questionnaire.getQuestionnaire_name();
+        this.questionnaireId =questionnaire.getQuestionnaireId();
+        this.questionnaireName =questionnaire.getQuestionnaireName();
         this.questionList=getQuestionList();
         this.authorizationCodeList=getAuthorizationCodeList();
     }
 
-    public String getQuestionnaire_name() {
-        return questionnaire_name;
+    public String getQuestionnaireName() {
+        return questionnaireName;
     }
 
-    public void setQuestionnaire_name(String questionnaire_name) {
-        this.questionnaire_name = questionnaire_name;
+    public void setQuestionnaireName(String questionnaire_name) {
+        this.questionnaireName = questionnaire_name;
     }
 
     public List<Question> getQuestionList() {
@@ -48,8 +47,8 @@ public class Questionnaire {
         this.questionList = questionList;
     }
 
-    public Long getQuestionnaire_id() {
-        return questionnaire_id;
+    public Long getQuestionnaireId() {
+        return questionnaireId;
     }
 
     public List<AuthorizationCode> getAuthorizationCodeList() {

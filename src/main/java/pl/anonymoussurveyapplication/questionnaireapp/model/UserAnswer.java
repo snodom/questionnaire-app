@@ -10,23 +10,23 @@ public class UserAnswer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
-    private Long id_user_answer;
+    private Long idUserAnswer;
 
 
     @Column
-    private String user_answer_a;
+    private String userAnswerA;
 
     @Column
-    private String user_answer_b;
+    private String userAnswerB;
 
     @Column
-    private String user_answer_c;
+    private String userAnswerC;
 
     @Column
-    private String user_answer_d;
+    private String userAnswerD;
 
     @Column
-    private String user_answer_long;
+    private String userAnswerLong;
 
     @OneToOne
     private Question question;
@@ -39,53 +39,53 @@ public class UserAnswer {
 
     public UserAnswer(UserAnswer userAnswer) {
         this.authorizationCode=getAuthorizationCode();
-        this.id_user_answer=getId_user_answer();
+        this.idUserAnswer = getIdUserAnswer();
         this.question=getQuestion();
-        this.user_answer_a=getUser_answer_a();
-        this.user_answer_b=getUser_answer_b();
-        this.user_answer_c=getUser_answer_c();
-        this.user_answer_d=getUser_answer_d();
-        this.user_answer_long=getUser_answer_long();
+        this.userAnswerA = getUserAnswerA();
+        this.userAnswerB = getUserAnswerB();
+        this.userAnswerC = getUserAnswerC();
+        this.userAnswerD = getUserAnswerD();
+        this.userAnswerLong = getUserAnswerLong();
     }
 
-    public String getUser_answer_a() {
-        return user_answer_a;
+    public String getUserAnswerA() {
+        return userAnswerA;
     }
 
-    public void setUser_answer_a(String user_answer_a) {
-        this.user_answer_a = user_answer_a;
+    public void setUserAnswerA(String user_answer_a) {
+        this.userAnswerA = user_answer_a;
     }
 
-    public String getUser_answer_b() {
-        return user_answer_b;
+    public String getUserAnswerB() {
+        return userAnswerB;
     }
 
-    public void setUser_answer_b(String user_answer_b) {
-        this.user_answer_b = user_answer_b;
+    public void setUserAnswerB(String user_answer_b) {
+        this.userAnswerB = user_answer_b;
     }
 
-    public String getUser_answer_c() {
-        return user_answer_c;
+    public String getUserAnswerC() {
+        return userAnswerC;
     }
 
-    public void setUser_answer_c(String user_answer_c) {
-        this.user_answer_c = user_answer_c;
+    public void setUserAnswerC(String user_answer_c) {
+        this.userAnswerC = user_answer_c;
     }
 
-    public String getUser_answer_d() {
-        return user_answer_d;
+    public String getUserAnswerD() {
+        return userAnswerD;
     }
 
-    public void setUser_answer_d(String user_answer_d) {
-        this.user_answer_d = user_answer_d;
+    public void setUserAnswerD(String user_answer_d) {
+        this.userAnswerD = user_answer_d;
     }
 
-    public String getUser_answer_long() {
-        return user_answer_long;
+    public String getUserAnswerLong() {
+        return userAnswerLong;
     }
 
-    public void setUser_answer_long(String user_answer_long) {
-        this.user_answer_long = user_answer_long;
+    public void setUserAnswerLong(String user_answer_long) {
+        this.userAnswerLong = user_answer_long;
     }
 
     public Question getQuestion() {
@@ -104,7 +104,7 @@ public class UserAnswer {
         this.authorizationCode = authorizationCode;
     }
 
-    public Long getId_user_answer() {
-        return id_user_answer;
+    public Long getIdUserAnswer() {
+        return idUserAnswer;
     }
 }

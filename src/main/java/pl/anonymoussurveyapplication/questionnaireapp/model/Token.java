@@ -11,25 +11,31 @@ public class Token {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
-    private Long token_id;
+    private Long tokenId;
 
     @Column
     @NotNull
-    private String token_code;
+    private String tokenCode;
 
     @Column
     @NotNull
     private Boolean used;
 
+    @Column
+    @NotNull
+    private Long questionnaireId;
+
+
+
     public Token() {
     }
 
-    public String getToken_code() {
-        return token_code;
+    public String getTokenCode() {
+        return tokenCode;
     }
 
-    public void setToken_code(String token_code) {
-        this.token_code = token_code;
+    public void setTokenCode(String token_code) {
+        this.tokenCode = token_code;
     }
 
     public Boolean getUsed() {
@@ -40,17 +46,22 @@ public class Token {
         this.used = used;
     }
 
-    public Long getToken_id() {
-        return token_id;
+    public Long getTokenId() {
+        return tokenId;
     }
 
-    public void setToken_id(Long token_id) {
-        this.token_id = token_id;
+    public Long getQuestionnaireId() {
+        return questionnaireId;
+    }
+
+    public void setQuestionnaireId(Long questionnaireId) {
+        this.questionnaireId = questionnaireId;
     }
 
     public Token(Token token) {
-        this.token_code=token.getToken_code();
-        this.token_id=token.getToken_id();
+        this.tokenCode =token.getTokenCode();
+        this.tokenId =token.getTokenId();
         this.used=token.getUsed();
+        this.questionnaireId=token.getQuestionnaireId();
     }
 }

@@ -2,7 +2,6 @@ package pl.anonymoussurveyapplication.questionnaireapp.model;
 
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Table(name= "question")
 @Entity
@@ -11,90 +10,103 @@ public class Question{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
-    private Long question_id;
+    private Long questionId;
 
     @Column
-    private String title_question;
+    private String titleQuestion;
 
     @Column
-    private String answer_a;
+    private String answerA;
 
     @Column
-    private String answer_b;
+    private String answerB;
 
     @Column
-    private String answer_c;
+    private String answerC;
 
     @Column
-    private String answer_d;
+    private String answerD;
 
     @Column
-    private String answer_long;
+    private String answerLong;
+
+    @ManyToOne
+    @JoinColumn(name="questionnaire_id")
+    private Questionnaire questionnaire;
 
 
     public Question() {
     }
 
     public Question(Question question) {
-        this.question_id=getQuestion_id();
-        this.title_question=getTitle_question();
-        this.answer_a=getAnswer_a();
-        this.answer_b=getAnswer_b();
-        this.answer_c=getAnswer_c();
-        this.answer_d=getAnswer_d();
-        this.answer_long=getAnswer_long();
+        this.questionId = getQuestionId();
+        this.titleQuestion = getTitleQuestion();
+        this.answerA = getAnswerA();
+        this.answerB = getAnswerB();
+        this.answerC = getAnswerC();
+        this.answerD = getAnswerD();
+        this.answerLong = getAnswerLong();
+        this.questionnaire=getQuestionnaire();
     }
 
 
-    public String getTitle_question() {
-        return title_question;
+    public String getTitleQuestion() {
+        return titleQuestion;
     }
 
-    public void setTitle_question(String title_question) {
-        this.title_question = getTitle_question();
+    public void setTitleQuestion(String title_question) {
+        this.titleQuestion = getTitleQuestion();
     }
 
-    public String getAnswer_a() {
-        return answer_a;
+    public String getAnswerA() {
+        return answerA;
     }
 
-    public void setAnswer_a(String answer_a) {
-        this.answer_a = getAnswer_a();
+    public void setAnswerA(String answer_a) {
+        this.answerA = getAnswerA();
     }
 
-    public String getAnswer_b() {
-        return answer_b;
+    public String getAnswerB() {
+        return answerB;
     }
 
-    public void setAnswer_b(String answer_b) {
-        this.answer_b = getAnswer_b();
+    public void setAnswerB(String answer_b) {
+        this.answerB = getAnswerB();
     }
 
-    public String getAnswer_c() {
-        return answer_c;
+    public String getAnswerC() {
+        return answerC;
     }
 
-    public void setAnswer_c(String answer_c) {
-        this.answer_c = getAnswer_c();
+    public void setAnswerC(String answer_c) {
+        this.answerC = getAnswerC();
     }
 
-    public String getAnswer_d() {
-        return answer_d;
+    public String getAnswerD() {
+        return answerD;
     }
 
-    public void setAnswer_d(String answer_d) {
-        this.answer_d = getAnswer_d();
+    public void setAnswerD(String answer_d) {
+        this.answerD = getAnswerD();
     }
 
-    public String getAnswer_long() {
-        return answer_long;
+    public String getAnswerLong() {
+        return answerLong;
     }
 
-    public void setAnswer_long(String answer_long) {
-        this.answer_long = getAnswer_long();
+    public void setAnswerLong(String answer_long) {
+        this.answerLong = getAnswerLong();
     }
 
-    public Long getQuestion_id() {
-        return question_id;
+    public Long getQuestionId() {
+        return questionId;
+    }
+
+    public Questionnaire getQuestionnaire() {
+        return questionnaire;
+    }
+
+    public void setQuestionnaire(Questionnaire questionnaire) {
+        this.questionnaire = questionnaire;
     }
 }
