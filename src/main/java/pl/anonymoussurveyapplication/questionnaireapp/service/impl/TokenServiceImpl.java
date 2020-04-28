@@ -9,13 +9,14 @@ import pl.anonymoussurveyapplication.questionnaireapp.service.TokenService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.IntStream;
 
 @Service
 public class TokenServiceImpl implements TokenService {
 
 
     // zablokować liczbę większą od 10000
-    public List<Integer> RandomUniqueCodeGenerator(int quantity){
+    static List<Integer> RandomUniqueCodeGenerator(int quantity){
 
         List<Integer> randomUniqueCodeList = new ArrayList<>(quantity);
         ThreadLocalRandom.current().ints(90000, 100000).distinct().limit(quantity).forEach(randomUniqueCodeList::add);
@@ -30,19 +31,7 @@ public class TokenServiceImpl implements TokenService {
     public List<Token> getAllForQuestionnaire(Long questionnaireId) {
         return tokenRespository.findAll();
     }
-/*
-// TODO przeniesc do AUTHORIZATION CODE SERVICE IMPL
 
-    @Override
-    public void createTokenForQuestionnaire(Long questionnaireId) {
-        Token token = new Token();
-        token.setTokenCode(RandomUniqueCodeGenerator(1).toString());
-        token.setUsed(false);
-        token.setQuestionnaireId(questionnaireId);
-
-        tokenRespository.save(token);
-    }
-*/
     @Override
     public void createTokenForCodeGenerator(Long questionnaireId) {
         Token token = new Token();
@@ -57,15 +46,17 @@ public class TokenServiceImpl implements TokenService {
     @Override
     public void createQuantityOfTokensForCodeGenerator(Long questionnaireId, int quantityCodes) {
 
+        IntStream.rangeClosed(0, quantityCodes).mapToObj(i -> questionnaireId).forEach(this::createTokenForCodeGenerator);
+
     }
 
     @Override
     public void deleteToken(Long tokenId) {
-
+        tokenRespository.deleteById(tokenId);
     }
 
     @Override
-    public Token used(Long tokenId) {
-        return null;
+    public void used(Long tokenId) {
+        tokenRespository.getOne(tokenId).setUsed(true);
     }
 }

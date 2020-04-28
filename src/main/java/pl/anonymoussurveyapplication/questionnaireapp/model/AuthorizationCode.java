@@ -20,6 +20,7 @@ public class AuthorizationCode {
     @NotNull
     private Boolean used;
 
+
     @ManyToOne
     @JoinColumn(name="questionnaire_id")
     private Questionnaire questionnaire;

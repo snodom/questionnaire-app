@@ -9,5 +9,5 @@ public interface TokenService {
     void createTokenForCodeGenerator(Long questionnaireId);
     void createQuantityOfTokensForCodeGenerator(Long questionnaireId, int quantityCodes);
     void deleteToken(Long tokenId);
-    Token used(Long tokenId);
+    void used(Long tokenId);
 }
