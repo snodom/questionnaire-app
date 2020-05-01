@@ -6,7 +6,7 @@ import pl.anonymoussurveyapplication.questionnaireapp.model.Questionnaire;
 import java.util.List;
 
 public interface AuthorizationCodeService {
-    List<AuthorizationCode> getAll();
+    List<AuthorizationCode> getAllByQuestionnaireId(Long questionnaireId);
     void createCodeForQuestionnaire(Questionnaire questionnaire);
     void createQuantityOfAuthorizationCodes(Questionnaire questionnaire, int quantityCodes);
     void deleteAuthorizationCode(Long authorizationCode_id);

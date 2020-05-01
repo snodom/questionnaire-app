@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface AuthorizationCodeRepository extends JpaRepository<AuthorizationCode, Long>{
     List<AuthorizationCode> findAll();
+    List<AuthorizationCode> findAllByQuestionnaireQuestionnaireId(Long questionnaireId);
 }

@@ -14,12 +14,12 @@ import java.util.stream.IntStream;
 @Service
 public class TokenServiceImpl implements TokenService {
 
-
+//TODO ZMIENIC Z STRINGA KONDY NA INT
     // zablokować liczbę większą od 10000
     static List<Integer> RandomUniqueCodeGenerator(int quantity){
 
         List<Integer> randomUniqueCodeList = new ArrayList<>(quantity);
-        ThreadLocalRandom.current().ints(90000, 100000).distinct().limit(quantity).forEach(randomUniqueCodeList::add);
+        ThreadLocalRandom.current().ints(90000, 1000000).distinct().limit(quantity).forEach(randomUniqueCodeList::add);
 
         return randomUniqueCodeList;
     }

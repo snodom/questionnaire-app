@@ -21,9 +21,10 @@ public class AuthorizationCodeServiceImpl implements AuthorizationCodeService {
     @Autowired
     public QuestionnaireRepository questionnaireRepository;
 
+
     @Override
-    public List<AuthorizationCode> getAll() {
-        return null;
+    public List<AuthorizationCode> getAllByQuestionnaireId(Long questionnaireId) {
+        return authorizationCodeRepository.findAllByQuestionnaireQuestionnaireId(questionnaireId);
     }
 
     @Override
