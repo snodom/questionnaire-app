@@ -28,6 +28,13 @@ public class AuthorizationCodeServiceImpl implements AuthorizationCodeService {
     }
 
     @Override
+    public AuthorizationCode getLastCodForQuestionnaireId(Long questionnaireId) {
+        List<AuthorizationCode> authorizationCodes;
+        authorizationCodes=authorizationCodeRepository.findAllByQuestionnaireQuestionnaireId(questionnaireId);
+        return authorizationCodes.get(authorizationCodes.size()-1);
+    }
+
+    @Override
     public void createCodeForQuestionnaire(Questionnaire questionnaire) {
 
         AuthorizationCode authorizationCode = new AuthorizationCode();

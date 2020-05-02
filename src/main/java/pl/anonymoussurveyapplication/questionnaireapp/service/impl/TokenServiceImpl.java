@@ -33,6 +33,14 @@ public class TokenServiceImpl implements TokenService {
     }
 
     @Override
+    public Long getQuestionnaireIdByTokenCode(String tokenCode) {
+
+        Token token = tokenRespository.findByTokenCode(tokenCode);
+        return token.getQuestionnaireId();
+    }
+
+
+    @Override
     public void createTokenForCodeGenerator(Long questionnaireId) {
         Token token = new Token();
         token.setTokenCode(RandomUniqueCodeGenerator(1).toString());

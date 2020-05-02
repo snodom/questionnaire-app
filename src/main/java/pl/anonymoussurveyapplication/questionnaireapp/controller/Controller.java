@@ -123,8 +123,17 @@ public class Controller {
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
-    //tworzenie kodu za pomoca tokenu
+    //tworzenie kodu za pomoca tokenu, sciaganie ostatniego dodanego do bazy z bazy danych
+    @GetMapping("/token/createAuthorizationCode")
+    public AuthorizationCode authorizationCode(String tokenCode){
+
+        authorizationCodeService.createCodeForQuestionnaire(questionnaireService.getOneQuestionnaire(tokenService.getQuestionnaireIdByTokenCode(tokenCode)));
+        return authorizationCodeService.getLastCodForQuestionnaireId(tokenService.getQuestionnaireIdByTokenCode(tokenCode));
+    }
 
     // przesylanie odpowiedzi do pytan
+
+
+
 
 }
