@@ -12,4 +12,5 @@ public interface AuthorizationCodeService {
     void createQuantityOfAuthorizationCodes(Questionnaire questionnaire, int quantityCodes);
     void deleteAuthorizationCode(Long authorizationCode_id);
     void used(Long authorizationCode_id);
+    AuthorizationCode getAuthorizationCodeByAuthorizationCode(Long authorizationCode);
 }

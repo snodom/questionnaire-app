@@ -33,7 +33,7 @@ public class TokenServiceImpl implements TokenService {
     }
 
     @Override
-    public Long getQuestionnaireIdByTokenCode(String tokenCode) {
+    public Long getQuestionnaireIdByTokenCode(Long tokenCode) {
 
         Token token = tokenRespository.findByTokenCode(tokenCode);
         return token.getQuestionnaireId();
@@ -42,12 +42,13 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public void createTokenForCodeGenerator(Long questionnaireId) {
-        Token token = new Token();
-        token.setTokenCode(RandomUniqueCodeGenerator(1).toString());
-        token.setUsed(false);
-        token.setQuestionnaireId(questionnaireId);
 
-        tokenRespository.save(token);
+            Token token = new Token();
+            token.setTokenCode(Long.parseLong((RandomUniqueCodeGenerator(1).toString())));
+            token.setUsed(false);
+            token.setQuestionnaireId(questionnaireId);
+
+            tokenRespository.save(token);
     }
 
 

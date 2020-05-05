@@ -14,7 +14,7 @@ public class AuthorizationCode {
 
     @Column
     @NotNull
-    private String authorizationCode;
+    private Long authorizationCode;
 
     @Column
     @NotNull
@@ -35,11 +35,11 @@ public class AuthorizationCode {
         this.questionnaire =getQuestionnaire();
     }
 
-    public String getAuthorizationCode() {
+    public Long getAuthorizationCode() {
         return authorizationCode;
     }
 
-    public void setAuthorizationCode(String authorization_code) {
+    public void setAuthorizationCode(Long authorization_code) {
         this.authorizationCode = authorization_code;
     }
 

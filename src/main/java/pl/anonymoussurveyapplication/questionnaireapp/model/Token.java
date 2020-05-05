@@ -15,7 +15,7 @@ public class Token {
 
     @Column
     @NotNull
-    private String tokenCode;
+    private Long tokenCode;
 
     @Column
     @NotNull
@@ -30,11 +30,11 @@ public class Token {
     public Token() {
     }
 
-    public String getTokenCode() {
+    public Long getTokenCode() {
         return tokenCode;
     }
 
-    public void setTokenCode(String token_code) {
+    public void setTokenCode(Long token_code) {
         this.tokenCode = token_code;
     }
 

@@ -28,17 +28,57 @@ public class Controller {
     @Autowired
     private UserAnswerService userAnswerService;
 
+        /*
+  ___  _____  ___   ___   _  _    _      ___  _     ___ __      __ _  _    _
+ / __||_   _|| _ \ / _ \ | \| |  /_\    / __|| |   / _ \\ \    / /| \| |  /_\
+ \__ \  | |  |   /| (_) || .` | / _ \  | (_ || |__| (_) |\ \/\/ / | .` | / _ \
+ |___/  |_|  |_|_\ \___/ |_|\_|/_/ \_\  \___||____|\___/  \_/\_/  |_|\_|/_/ \_\
+     */
+
+    //tworzenie kodu do ankiety za pomoca tokenu, zwraca ostatni wygenerowany kod,jako string jezeli jest poprawny, jezeli nie to zwraca stringa z bledem, jako parametr ma otrzymac Long
+    //tak czy siak tego strina trzeba wyswietlic
+    @GetMapping("/token/createAndGetAuthorizationCode")
+    public String createAndGetAuthorizationCode(@Valid @RequestParam Long tokenCode){
+        try{
+            authorizationCodeService.createCodeForQuestionnaire(questionnaireService.getOneQuestionnaire(tokenService.getQuestionnaireIdByTokenCode(tokenCode)));
+            return authorizationCodeService.getLastCodForQuestionnaireId(tokenService.getQuestionnaireIdByTokenCode(tokenCode)).getAuthorizationCode().toString();
+        }catch (Exception e){
+            return "Podany kod jest nieprawidłowy";
+        }
+    }
+
+    //zwraca czy podany authorization code jest uzyty czy nie
+    @GetMapping("/authorizationCode/getAuthorizationCode")
+    public Boolean getAuthorizationCode(Long authorizationCode){
+        return authorizationCodeService.getAuthorizationCodeByAuthorizationCode(authorizationCode).getUsed();
+    }
+
+    //TODO co jezeli kod bedzie nie poprawny
+
+    @GetMapping("/question/getAllQuestionForQuestionnaire")
+    public List<Question> getAllQuestionForQuestionnaire(@Valid @RequestBody Long authorizationCode){
+
+        return questionService.getAllFromQuestionnaire(authorizationCodeService.getAuthorizationCodeByAuthorizationCode(authorizationCode).getQuestionnaire().getQuestionnaireId());
+    }
+
+    //wyswietlanie listy odpowiedzi do ankiety dla jednego authorization kodu / trzeba sprawdzic czy w authorization code pole used jest false czy true, jezeli jest true to znaczy, ze kod jest użyty
+    // i wtedy wykonujemy ta metode
+
+    //TODO co jezeli kod bedzie nie poprawny
+
+    @GetMapping("userAnswer/getAllUserAnswerForQuestionnaire")
+    public List<UserAnswer> getAllUserAnswerForQuestionnaire(@Valid @RequestParam("authorizationCode") Long authorizationCode){
+        return userAnswerService.getAllAnswersByQuestionnaireIdAndAuthorizationCodeId(
+                authorizationCodeService.getAuthorizationCodeByAuthorizationCode(authorizationCode).getQuestionnaire().getQuestionnaireId(),
+                authorizationCodeService.getAuthorizationCodeByAuthorizationCode(authorizationCode).getIdAuthorizationCode());
+    }
+
+
+
     // wyswietlanie wszystkich danych o ankietach - potrzebne są nazwy - beda tam pola z nazwami
     @GetMapping("/questionnaire/getAllQuestionnaire")
     public List<Questionnaire> getAllQuestionnarie(){
         return questionnaireService.getAll();
-    }
-
-    // wyswietlanie listy pytan do ankiety wybranej ankiety, jako parametr trzeba przeslac questionnaireId
-
-    @GetMapping("/question/getAllQuestionForQuestionnaire")
-    public List<Question> getAllQuestionForQuestionnaire(@Valid @RequestBody Long questionnaireId ){
-        return questionService.getAllFromQuestionnaire(questionnaireId);
     }
 
     // wyswietlanie listy tokenow do twoerzenia kodow do wybranej ankiety
@@ -53,13 +93,6 @@ public class Controller {
     public List<AuthorizationCode> getAllAuthorizationCodesForQuestionnaire(@Valid @RequestBody Long questionnaireId ){
         return authorizationCodeService.getAllByQuestionnaireId(questionnaireId);
     }
-
-    //wyswietlanie listy odpowiedzi do ankiety dla jednego authorization kodu / trzeba sprawdzic czy w authorization cod pole used jest false czy true, jezeli jest true to znaczy, ze kod jest użyty
-    @GetMapping("userAnswer/getAllUserAnswerForQuestionnaire")
-    public List<UserAnswer> getAllUserAnswerForQuestionnaire(@Valid @RequestBody @RequestParam("questionnaireId") Long questionnaireId, @RequestParam("authorizationCodeId") Long authorizationCodeId){
-       return userAnswerService.getAllAnswersByQuestionnaireIdAndAuthorizationCodeId(questionnaireId,authorizationCodeId);
-    }
-
 
     //tworzenie ankiety
     @PostMapping("/questionnaire/AddQuestionnaire")
@@ -123,17 +156,15 @@ public class Controller {
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
-    //tworzenie kodu za pomoca tokenu, sciaganie ostatniego dodanego do bazy z bazy danych
-    @GetMapping("/token/createAuthorizationCode")
-    public AuthorizationCode authorizationCode(String tokenCode){
-
-        authorizationCodeService.createCodeForQuestionnaire(questionnaireService.getOneQuestionnaire(tokenService.getQuestionnaireIdByTokenCode(tokenCode)));
-        return authorizationCodeService.getLastCodForQuestionnaireId(tokenService.getQuestionnaireIdByTokenCode(tokenCode));
-    }
-
     // przesylanie odpowiedzi do pytan
 
-
-
-
+    @PostMapping("/userAnswer/addUserAnswer")
+    public ResponseEntity<String> addQuestion(String answer, Long questionId, Long authorizationCode){
+        try{
+            userAnswerService.setUserAnswer(answer,questionService.getQuestionById(questionId),authorizationCodeService.getAuthorizationCodeByAuthorizationCode(authorizationCode));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("nie udalo sie dodać odpowiedzi do pytania");
+        }
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
 }

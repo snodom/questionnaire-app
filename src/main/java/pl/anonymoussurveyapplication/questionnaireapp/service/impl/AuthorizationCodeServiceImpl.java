@@ -38,7 +38,7 @@ public class AuthorizationCodeServiceImpl implements AuthorizationCodeService {
     public void createCodeForQuestionnaire(Questionnaire questionnaire) {
 
         AuthorizationCode authorizationCode = new AuthorizationCode();
-        authorizationCode.setAuthorizationCode(TokenServiceImpl.RandomUniqueCodeGenerator(1).toString());
+        authorizationCode.setAuthorizationCode(Long.parseLong(TokenServiceImpl.RandomUniqueCodeGenerator(1).toString()));
         authorizationCode.setUsed(false);
 
         questionnaire.getAuthorizationCodeList().add(authorizationCode);
@@ -62,5 +62,10 @@ public class AuthorizationCodeServiceImpl implements AuthorizationCodeService {
     @Override
     public void used(Long authorizationCodeId) {
         authorizationCodeRepository.getOne(authorizationCodeId).setUsed(true);
+    }
+
+    @Override
+    public AuthorizationCode getAuthorizationCodeByAuthorizationCode(Long authorizationCode) {
+        return authorizationCodeRepository.findByAuthorizationCode(authorizationCode);
     }
 }

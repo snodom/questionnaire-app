@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface TokenService {
     List<Token> getAllForQuestionnaire(Long questionnaireId);
-    Long getQuestionnaireIdByTokenCode(String tokenCode);
+    Long getQuestionnaireIdByTokenCode(Long tokenCode);
     void createTokenForCodeGenerator(Long questionnaireId);
     void createQuantityOfTokensForCodeGenerator(Long questionnaireId, int quantityCodes);
     void deleteToken(Long tokenId);
