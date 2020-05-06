@@ -38,7 +38,7 @@ public class Controller {
     //tworzenie kodu do ankiety za pomoca tokenu, zwraca ostatni wygenerowany kod,jako string jezeli jest poprawny, jezeli nie to zwraca stringa z bledem, jako parametr ma otrzymac Long
     //tak czy siak tego strina trzeba wyswietlic
     @GetMapping("/token/createAndGetAuthorizationCode")
-    public String createAndGetAuthorizationCode(@Valid @RequestParam Long tokenCode){
+    public String createAndGetAuthorizationCode(@Valid @RequestBody Long tokenCode){
         try{
            // authorizationCodeService.createCodeForQuestionnaire(questionnaireService.getOneQuestionnaire(tokenService.getQuestionnaireIdByTokenCode(tokenCode)));
             return authorizationCodeService.getLastCodForQuestionnaireId(tokenService.getQuestionnaireIdByTokenCode(tokenCode)).getAuthorizationCode().toString();
@@ -49,7 +49,7 @@ public class Controller {
 
     //zwraca czy podany authorization code jest uzyty czy nie
     @GetMapping("/authorizationCode/getAuthorizationCode")
-    public Boolean getAuthorizationCode(Long authorizationCode){
+    public Boolean getAuthorizationCode(@Valid @RequestBody Long authorizationCode){
         return authorizationCodeService.getAuthorizationCodeByAuthorizationCode(authorizationCode).getUsed();
     }
 
@@ -72,7 +72,7 @@ public class Controller {
     //if != null wykonaj, else pokaz informacje "podany kod jest nie poprawny" - trzeba zrobic na froncie ta informacje
 
     @GetMapping("userAnswer/getAllUserAnswerForQuestionnaire")
-    public List<UserAnswer> getAllUserAnswerForQuestionnaire(@Valid @RequestParam("authorizationCode") Long authorizationCode){
+    public List<UserAnswer> getAllUserAnswerForQuestionnaire(@Valid @RequestBody Long authorizationCode){
         try{
             return userAnswerService.getAllAnswersByQuestionnaireIdAndAuthorizationCodeId(
                     authorizationCodeService.getAuthorizationCodeByAuthorizationCode(authorizationCode).getQuestionnaire().getQuestionnaireId(),
