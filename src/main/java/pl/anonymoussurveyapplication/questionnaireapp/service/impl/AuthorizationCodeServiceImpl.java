@@ -4,12 +4,14 @@ package pl.anonymoussurveyapplication.questionnaireapp.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.anonymoussurveyapplication.questionnaireapp.model.AuthorizationCode;
+import pl.anonymoussurveyapplication.questionnaireapp.model.Question;
 import pl.anonymoussurveyapplication.questionnaireapp.model.Questionnaire;
 import pl.anonymoussurveyapplication.questionnaireapp.respository.AuthorizationCodeRepository;
 import pl.anonymoussurveyapplication.questionnaireapp.respository.QuestionnaireRepository;
 import pl.anonymoussurveyapplication.questionnaireapp.service.AuthorizationCodeService;
 
 import java.util.List;
+import java.util.OptionalInt;
 import java.util.stream.IntStream;
 
 @Service
@@ -38,14 +40,16 @@ public class AuthorizationCodeServiceImpl implements AuthorizationCodeService {
     public void createCodeForQuestionnaire(Questionnaire questionnaire) {
 
         AuthorizationCode authorizationCode = new AuthorizationCode();
-        authorizationCode.setAuthorizationCode(Long.parseLong(TokenServiceImpl.RandomUniqueCodeGenerator(1).toString()));
+
+        authorizationCode.setAuthorizationCode((long) TokenServiceImpl.RandomUniqueCodeGenerator(1).get(0));
         authorizationCode.setUsed(false);
+        authorizationCode.setQuestionnaire(questionnaire);
 
         questionnaire.getAuthorizationCodeList().add(authorizationCode);
 
-
         authorizationCodeRepository.save(authorizationCode);
         questionnaireRepository.save(questionnaire);
+
     }
 
     @Override

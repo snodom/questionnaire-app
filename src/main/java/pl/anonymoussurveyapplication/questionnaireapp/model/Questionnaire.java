@@ -3,7 +3,7 @@ package pl.anonymoussurveyapplication.questionnaireapp.model;
 import javax.persistence.*;
 import java.util.List;
 
-@Table(name= "questionnaires")
+@Table(name= "questionnaire")
 @Entity
 public class  Questionnaire {
     @Id

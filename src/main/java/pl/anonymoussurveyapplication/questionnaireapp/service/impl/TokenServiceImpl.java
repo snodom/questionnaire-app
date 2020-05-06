@@ -44,7 +44,7 @@ public class TokenServiceImpl implements TokenService {
     public void createTokenForCodeGenerator(Long questionnaireId) {
 
             Token token = new Token();
-            token.setTokenCode(Long.parseLong((RandomUniqueCodeGenerator(1).toString())));
+            token.setTokenCode((long) TokenServiceImpl.RandomUniqueCodeGenerator(1).get(0));
             token.setUsed(false);
             token.setQuestionnaireId(questionnaireId);
 

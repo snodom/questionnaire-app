@@ -40,7 +40,7 @@ public class Controller {
     @GetMapping("/token/createAndGetAuthorizationCode")
     public String createAndGetAuthorizationCode(@Valid @RequestParam Long tokenCode){
         try{
-            authorizationCodeService.createCodeForQuestionnaire(questionnaireService.getOneQuestionnaire(tokenService.getQuestionnaireIdByTokenCode(tokenCode)));
+           // authorizationCodeService.createCodeForQuestionnaire(questionnaireService.getOneQuestionnaire(tokenService.getQuestionnaireIdByTokenCode(tokenCode)));
             return authorizationCodeService.getLastCodForQuestionnaireId(tokenService.getQuestionnaireIdByTokenCode(tokenCode)).getAuthorizationCode().toString();
         }catch (Exception e){
             return "Podany kod jest nieprawidłowy";
@@ -53,26 +53,35 @@ public class Controller {
         return authorizationCodeService.getAuthorizationCodeByAuthorizationCode(authorizationCode).getUsed();
     }
 
-    //TODO co jezeli kod bedzie nie poprawny
+    //if != null wykonaj, else pokaz informacje "podany kod jest nie poprawny" - trzeba zrobic na froncie ta informacje
 
     @GetMapping("/question/getAllQuestionForQuestionnaire")
     public List<Question> getAllQuestionForQuestionnaire(@Valid @RequestBody Long authorizationCode){
+        try{
 
         return questionService.getAllFromQuestionnaire(authorizationCodeService.getAuthorizationCodeByAuthorizationCode(authorizationCode).getQuestionnaire().getQuestionnaireId());
+
+        }catch (Exception e){
+            return null;
+        }
     }
 
     //wyswietlanie listy odpowiedzi do ankiety dla jednego authorization kodu / trzeba sprawdzic czy w authorization code pole used jest false czy true, jezeli jest true to znaczy, ze kod jest użyty
     // i wtedy wykonujemy ta metode
 
-    //TODO co jezeli kod bedzie nie poprawny
+    //if != null wykonaj, else pokaz informacje "podany kod jest nie poprawny" - trzeba zrobic na froncie ta informacje
 
     @GetMapping("userAnswer/getAllUserAnswerForQuestionnaire")
     public List<UserAnswer> getAllUserAnswerForQuestionnaire(@Valid @RequestParam("authorizationCode") Long authorizationCode){
-        return userAnswerService.getAllAnswersByQuestionnaireIdAndAuthorizationCodeId(
-                authorizationCodeService.getAuthorizationCodeByAuthorizationCode(authorizationCode).getQuestionnaire().getQuestionnaireId(),
-                authorizationCodeService.getAuthorizationCodeByAuthorizationCode(authorizationCode).getIdAuthorizationCode());
-    }
+        try{
+            return userAnswerService.getAllAnswersByQuestionnaireIdAndAuthorizationCodeId(
+                    authorizationCodeService.getAuthorizationCodeByAuthorizationCode(authorizationCode).getQuestionnaire().getQuestionnaireId(),
+                    authorizationCodeService.getAuthorizationCodeByAuthorizationCode(authorizationCode).getIdAuthorizationCode());
 
+        }catch (Exception e){
+            return null;
+        }
+    }
 
 
     // wyswietlanie wszystkich danych o ankietach - potrzebne są nazwy - beda tam pola z nazwami
@@ -113,6 +122,7 @@ public class Controller {
     @PostMapping("/authorizationCode/createAuthorizationCodeForQuestionnaire")
     public ResponseEntity<String> createAuthorizationCodeForQuestionnaire(@Valid @RequestBody Long questionnaireId ){
         try{
+            System.out.println(questionnaireService.getOneQuestionnaire(questionnaireId).getQuestionnaireId());
         authorizationCodeService.createCodeForQuestionnaire(questionnaireService.getOneQuestionnaire(questionnaireId));
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("nie udalo sie utworzyc kodu dla ankiety o id: "+questionnaireId);
@@ -124,7 +134,7 @@ public class Controller {
     @PostMapping("/authorizationCode/createQuantityOfAuthorizationCodeForQuestionnaire")
     public ResponseEntity<String> createQuantityOfAuthorizationCodeForQuestionnaire(@Valid @RequestBody @RequestParam("questionnaireId") Long questionnaireId, @RequestParam("quantity") int quantity){
         try{
-            authorizationCodeService.createQuantityOfAuthorizationCodes(questionnaireService.getOneQuestionnaire(questionnaireId),quantity);
+          //  authorizationCodeService.createQuantityOfAuthorizationCodes(questionnaireService.getOneQuestionnaire(questionnaireId),quantity);
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("nie udalo sie utworzyc kodów dla ankiety o id: "+questionnaireId);
         }
