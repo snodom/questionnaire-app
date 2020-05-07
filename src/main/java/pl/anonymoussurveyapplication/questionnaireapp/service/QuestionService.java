@@ -6,7 +6,7 @@ import pl.anonymoussurveyapplication.questionnaireapp.modelDto.QuestionDto;
 import java.util.List;
 
 public interface QuestionService {
-    void addQuestion(Question question);
+    void addQuestion(String question);
     void deleteQuestion(Long question_id);
     void deleteAllQuestions(Long questionnaire_id);
     List<Question> getAllFromQuestionnaire(Long questionnaire_id);

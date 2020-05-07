@@ -10,6 +10,7 @@ public interface UserAnswerService {
 
     void setUserAnswer(String answer, Question question, AuthorizationCode authorizationCode);
     List<UserAnswer> getAllAnswersByQuestionnaireIdAndAuthorizationCodeId(Long questionnaireId, Long authorizationCodeId);
+    List<UserAnswer> findUserAnswersByAuthorizationCode_IdAuthorizationCode(Long authorizationCodeId);
     UserAnswer getOneAnswerByQuestionId(Long questionId, Long authorizationCodeId);
 
 }

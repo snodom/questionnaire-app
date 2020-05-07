@@ -66,6 +66,14 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public void used(Long tokenId) {
-        tokenRespository.getOne(tokenId).setUsed(true);
+        Token token = tokenRespository.findByTokenCode(tokenId);
+        token.setUsed(true);
+        tokenRespository.save(token);
+    }
+
+    @Override
+    public boolean checkused(Long tokenId) {
+        tokenRespository.findByTokenCode(tokenId);
+        return !tokenRespository.findByTokenCode(tokenId).getUsed();
     }
 }

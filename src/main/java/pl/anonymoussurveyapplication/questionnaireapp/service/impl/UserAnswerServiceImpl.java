@@ -22,8 +22,9 @@ public class UserAnswerServiceImpl implements UserAnswerService {
         UserAnswer userAnswer=new UserAnswer();
         userAnswer.setAuthorizationCode(authorizationCode);
         userAnswer.setQuestion(question);
+        userAnswer.setQuestio(question.getTitleQuestion());
 
-       if(answer.equals("A") || answer.equals("a") ){   // przy testach mozna usonac, sprawdzic jak sie bedzie przesylac !!!!!!!!! tutaj moze pojawic sie blad
+       if(answer.equals("A") || answer.equals("a") ){
            userAnswer.setUserAnswerA(answer);
        }
        else if(answer.equals("B") || answer.equals("b")) {
@@ -36,13 +37,24 @@ public class UserAnswerServiceImpl implements UserAnswerService {
            userAnswer.setUserAnswerD(answer);
        }
        else userAnswer.setUserAnswerLong(answer);
-
         userAnswerRepository.save(userAnswer);
     }
 
     @Override
     public List<UserAnswer> getAllAnswersByQuestionnaireIdAndAuthorizationCodeId(Long questionnaireId, Long authorizationCodeId) {
         return userAnswerRepository.findAllByQuestionQuestionnaireQuestionnaireIdAndAuthorizationCode_IdAuthorizationCode(questionnaireId, authorizationCodeId);
+    }
+
+    @Override
+    public List<UserAnswer> findUserAnswersByAuthorizationCode_IdAuthorizationCode(Long authorizationCodeId) {
+        List <UserAnswer> userAnswerList;
+        userAnswerList = userAnswerRepository.findUserAnswersByAuthorizationCode_IdAuthorizationCode(authorizationCodeId);
+
+        userAnswerList.forEach(userAnswer -> {
+            userAnswer.setQuestion(null);
+            userAnswer.setAuthorizationCode(null);
+        });
+        return userAnswerList;
     }
 
     @Override

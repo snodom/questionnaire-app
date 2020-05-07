@@ -4,14 +4,12 @@ package pl.anonymoussurveyapplication.questionnaireapp.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.anonymoussurveyapplication.questionnaireapp.model.AuthorizationCode;
-import pl.anonymoussurveyapplication.questionnaireapp.model.Question;
 import pl.anonymoussurveyapplication.questionnaireapp.model.Questionnaire;
 import pl.anonymoussurveyapplication.questionnaireapp.respository.AuthorizationCodeRepository;
 import pl.anonymoussurveyapplication.questionnaireapp.respository.QuestionnaireRepository;
 import pl.anonymoussurveyapplication.questionnaireapp.service.AuthorizationCodeService;
 
 import java.util.List;
-import java.util.OptionalInt;
 import java.util.stream.IntStream;
 
 @Service
@@ -26,13 +24,13 @@ public class AuthorizationCodeServiceImpl implements AuthorizationCodeService {
 
     @Override
     public List<AuthorizationCode> getAllByQuestionnaireId(Long questionnaireId) {
-        return authorizationCodeRepository.findAllByQuestionnaireQuestionnaireId(questionnaireId);
+        return authorizationCodeRepository.findAuthorizationCodesByQuestionnaireQuestionnaireId(questionnaireId);
     }
 
     @Override
     public AuthorizationCode getLastCodForQuestionnaireId(Long questionnaireId) {
         List<AuthorizationCode> authorizationCodes;
-        authorizationCodes=authorizationCodeRepository.findAllByQuestionnaireQuestionnaireId(questionnaireId);
+        authorizationCodes=authorizationCodeRepository.findAuthorizationCodesByQuestionnaireQuestionnaireId(questionnaireId);
         return authorizationCodes.get(authorizationCodes.size()-1);
     }
 

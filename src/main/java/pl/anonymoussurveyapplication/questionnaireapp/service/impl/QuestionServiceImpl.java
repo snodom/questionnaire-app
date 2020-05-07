@@ -1,8 +1,10 @@
 package pl.anonymoussurveyapplication.questionnaireapp.service.impl;
 
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.anonymoussurveyapplication.questionnaireapp.model.Question;
+import pl.anonymoussurveyapplication.questionnaireapp.model.Questionnaire;
 import pl.anonymoussurveyapplication.questionnaireapp.respository.QuestionRepository;
 import pl.anonymoussurveyapplication.questionnaireapp.service.QuestionService;
 
@@ -15,8 +17,10 @@ public class QuestionServiceImpl implements QuestionService {
     private QuestionRepository questionRepository;
 
     @Override
-    public void addQuestion(Question question) {
-        questionRepository.save(question);
+    public void addQuestion(String question) {
+        Gson g =new Gson();
+        Question que = g.fromJson(question.trim(),Question.class);
+        questionRepository.save(que);
     }
 
     @Override

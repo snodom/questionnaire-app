@@ -28,11 +28,15 @@ public class UserAnswer {
     @Column
     private String userAnswerLong;
 
+    @Column
+    private String questio;
+
     @OneToOne
     private Question question;
 
     @OneToOne
     private AuthorizationCode authorizationCode;
+
 
     public UserAnswer() {
     }
@@ -40,12 +44,22 @@ public class UserAnswer {
     public UserAnswer(UserAnswer userAnswer) {
         this.authorizationCode=getAuthorizationCode();
         this.idUserAnswer = getIdUserAnswer();
-        this.question=getQuestion();
+        this.question = getQuestion();
         this.userAnswerA = getUserAnswerA();
         this.userAnswerB = getUserAnswerB();
         this.userAnswerC = getUserAnswerC();
         this.userAnswerD = getUserAnswerD();
         this.userAnswerLong = getUserAnswerLong();
+        this.questio=getQuestio();
+
+    }
+
+    public String getQuestio() {
+        return questio;
+    }
+
+    public void setQuestio(String questio) {
+        this.questio = questio;
     }
 
     public String getUserAnswerA() {

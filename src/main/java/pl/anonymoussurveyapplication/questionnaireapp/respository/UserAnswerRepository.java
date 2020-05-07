@@ -10,5 +10,6 @@ import java.util.List;
 public interface UserAnswerRepository extends JpaRepository<UserAnswer, Long> {
     List<UserAnswer> findAll();
     List<UserAnswer> findAllByQuestionQuestionnaireQuestionnaireIdAndAuthorizationCode_IdAuthorizationCode(Long questionnaireId, Long authorizationCodeId);
+    List<UserAnswer> findUserAnswersByAuthorizationCode_IdAuthorizationCode(Long authorizationCodeId);
     UserAnswer findByAuthorizationCode_IdAuthorizationCodeAndQuestionQuestionId(Long questionId, Long authorizationCodeId);
 }
