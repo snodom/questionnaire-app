@@ -1,9 +1,11 @@
 package pl.anonymoussurveyapplication.questionnaireapp.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import pl.anonymoussurveyapplication.questionnaireapp.respository.UserRepository;
 import pl.anonymoussurveyapplication.questionnaireapp.service.UserService;
 
+@Service
 public class UserServiceImpl implements UserService {
 
     @Autowired

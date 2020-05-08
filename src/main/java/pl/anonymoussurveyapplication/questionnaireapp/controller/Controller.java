@@ -28,6 +28,18 @@ public class Controller {
     @Autowired
     private UserAnswerService userAnswerService;
 
+    @Autowired
+    private UserService userService;
+
+    @GetMapping("/user/userExist")
+    public boolean checkUser(@Valid @RequestBody @RequestParam("login") String login, @RequestParam("password") String password){
+        try {
+            return userService.checkUserData(login.trim(),password.trim());
+        }catch (Exception e){
+            return false;
+        }
+    }
+
     /*
  ____  ____   _____    ___ ______    ___  _____ ______   ___   __    __   ____  ____     ___
 |    \|    \ |     |  /  _]      |  /  _]/ ___/|      | /   \ |  |__|  | /    ||    \   /  _]

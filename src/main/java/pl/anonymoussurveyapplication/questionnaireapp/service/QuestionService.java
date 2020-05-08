@@ -1,7 +1,6 @@
 package pl.anonymoussurveyapplication.questionnaireapp.service;
 
 import pl.anonymoussurveyapplication.questionnaireapp.model.Question;
-import pl.anonymoussurveyapplication.questionnaireapp.modelDto.QuestionDto;
 
 import java.util.List;
 
