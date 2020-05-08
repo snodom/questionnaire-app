@@ -21,6 +21,12 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
 
    @Override
     public List<Questionnaire> getAll(){
+
+       List<Questionnaire> questionnaireList = questionnaireRepository.findAll();
+       questionnaireList.forEach(questionnaire -> {
+           questionnaire.setQuestionList(null);
+           questionnaire.setAuthorizationCodeList(null);
+       });
         return questionnaireRepository.findAll();
     }
 

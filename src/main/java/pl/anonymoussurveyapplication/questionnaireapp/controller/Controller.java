@@ -1,6 +1,5 @@
 package pl.anonymoussurveyapplication.questionnaireapp.controller;
 
-import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,38 +28,6 @@ public class Controller {
     @Autowired
     private UserAnswerService userAnswerService;
 
-    //if != null wykonaj, else pokaz informacje "podany kod jest nie poprawny" - trzeba zrobic na froncie ta informacje
-
-    @GetMapping("/question/getAllQuestionForQuestionnaire")
-    public List<Question> getAllQuestionForQuestionnaire(@Valid @RequestBody Long authorizationCode){
-        try{
-
-        return questionService.getAllFromQuestionnaire(authorizationCodeService.getAuthorizationCodeByAuthorizationCode(authorizationCode).getQuestionnaire().getQuestionnaireId());
-
-        }catch (Exception e){
-            return null;
-        }
-    }
-
-    // wyswietlanie wszystkich danych o ankietach - potrzebne są nazwy - beda tam pola z nazwami
-    @GetMapping("/questionnaire/getAllQuestionnaire")
-    public List<Questionnaire> getAllQuestionnarie(){
-        return questionnaireService.getAll();
-    }
-
-    // wyswietlanie listy tokenow do twoerzenia kodow do wybranej ankiety
-
-    @GetMapping("/token/getAllTokensForQuestionnaire")
-    public List<Token> getAllTokensForQuestionnaire(@Valid @RequestBody Long questionnaireId ){
-        return tokenService.getAllForQuestionnaire(questionnaireId);
-    }
-
-    // wyswietlanie listy kodów do ankiety
-    @GetMapping("/authorizationCode/getAllAuthorizationCodesForQuestionnaire")
-    public List<AuthorizationCode> getAllAuthorizationCodesForQuestionnaire(@Valid @RequestBody Long questionnaireId ){
-        return authorizationCodeService.getAllByQuestionnaireId(questionnaireId);
-    }
-
     /*
  ____  ____   _____    ___ ______    ___  _____ ______   ___   __    __   ____  ____     ___
 |    \|    \ |     |  /  _]      |  /  _]/ ___/|      | /   \ |  |__|  | /    ||    \   /  _]
@@ -74,14 +41,12 @@ public class Controller {
     @PostMapping("/userAnswer/addUserAnswer")
     public ResponseEntity<String> addUserAnswerForQuestion(@Valid @RequestBody @RequestParam("answer") String answer, @RequestParam("questionId") Long questionId, @RequestParam("authorizationCode")Long authorizationCode){
         try{
-            System.out.println(questionId);
             userAnswerService.setUserAnswer(answer,questionService.getQuestionById(questionId),authorizationCodeService.getAuthorizationCodeByAuthorizationCode(authorizationCode));
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("nie udalo sie dodać odpowiedzi do pytania, bad request");
         }
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
-
     /*
         {
 "titleQuestion" : "title",
@@ -192,7 +157,32 @@ public class Controller {
             return null;
         }
     }
+    //if != null wykonaj, else pokaz informacje "podany kod jest nie poprawny" - trzeba zrobic na froncie ta informacje
 
+    @GetMapping("/question/getAllQuestionForQuestionnaire")
+    public List<Question> getAllQuestionForQuestionnaire(@Valid @RequestBody Long authorizationCode){
+        try{
+            return questionService.getAllFromQuestionnaire(authorizationCodeService.getAuthorizationCodeByAuthorizationCode(authorizationCode).getQuestionnaire().getQuestionnaireId());
+        }catch (Exception e){
+            return null;
+        }
+    }
 
+    // wyswietlanie listy tokenow do twoerzenia kodow do wybranej ankiety
 
+    @GetMapping("/token/getAllTokensForQuestionnaire")
+    public List<Token> getAllTokensForQuestionnaire(@Valid @RequestBody Long questionnaireId ){
+        return tokenService.getAllForQuestionnaire(questionnaireId);
+    }
+
+    // wyswietlanie wszystkich danych o ankietach - potrzebne są nazwy - beda tam pola z nazwami
+    @GetMapping("/questionnaire/getAllQuestionnaire")
+    public List<Questionnaire> getAllQuestionnarie(){
+        return questionnaireService.getAll();
+    }
+    // wyswietlanie listy kodów do ankiety
+    @GetMapping("/authorizationCode/getAllAuthorizationCodesForQuestionnaire")
+    public List<AuthorizationCode> getAllAuthorizationCodesForQuestionnaire(@Valid @RequestBody Long questionnaireId ){
+        return authorizationCodeService.getAllByQuestionnaireId(questionnaireId);
+    }
 }

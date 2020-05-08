@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.anonymoussurveyapplication.questionnaireapp.model.Question;
-import pl.anonymoussurveyapplication.questionnaireapp.model.Questionnaire;
 import pl.anonymoussurveyapplication.questionnaireapp.respository.QuestionRepository;
 import pl.anonymoussurveyapplication.questionnaireapp.service.QuestionService;
 
@@ -35,7 +34,11 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public List<Question> getAllFromQuestionnaire(Long questionnaireId) {
-        return questionRepository.findAllByQuestionnaireQuestionnaireId(questionnaireId);
+        List<Question> questionList = questionRepository.findAllByQuestionnaireQuestionnaireId(questionnaireId);
+        questionList.forEach(question -> {
+            question.setQuestionnaire(null);
+        });
+        return questionList;
     }
 
     @Override
