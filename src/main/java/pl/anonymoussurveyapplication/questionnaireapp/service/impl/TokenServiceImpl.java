@@ -27,10 +27,14 @@ public class TokenServiceImpl implements TokenService {
     @Autowired
     private TokenRespository tokenRespository;
 
+
+
     @Override
     public List<Token> getAllForQuestionnaire(Long questionnaireId) {
         return tokenRespository.findAll();
     }
+
+
 
     @Override
     public Long getQuestionnaireIdByTokenCode(Long tokenCode) {
@@ -75,5 +79,10 @@ public class TokenServiceImpl implements TokenService {
     public boolean checkused(Long tokenId) {
         tokenRespository.findByTokenCode(tokenId);
         return !tokenRespository.findByTokenCode(tokenId).getUsed();
+    }
+
+    @Override
+    public List<Token> getAllByQuestionnaireId(Long questionnaireId) {
+        return tokenRespository.findTokensByQuestionnaireId(questionnaireId);
     }
 }

@@ -1,6 +1,8 @@
 package pl.anonymoussurveyapplication.questionnaireapp.service.impl;
 
 
+import javafx.print.Collation;
+import org.hibernate.mapping.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.anonymoussurveyapplication.questionnaireapp.model.AuthorizationCode;
@@ -9,6 +11,8 @@ import pl.anonymoussurveyapplication.questionnaireapp.respository.AuthorizationC
 import pl.anonymoussurveyapplication.questionnaireapp.respository.QuestionnaireRepository;
 import pl.anonymoussurveyapplication.questionnaireapp.service.AuthorizationCodeService;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -31,10 +35,18 @@ public class AuthorizationCodeServiceImpl implements AuthorizationCodeService {
         return authorizationCodes;
     }
 
+
     @Override
     public AuthorizationCode getLastCodForQuestionnaireId(Long questionnaireId) {
         List<AuthorizationCode> authorizationCodes;
         authorizationCodes=authorizationCodeRepository.findAuthorizationCodesByQuestionnaireQuestionnaireId(questionnaireId);
+        authorizationCodes.sort(Comparator.comparing(AuthorizationCode::getIdAuthorizationCode));
+
+            authorizationCodes.forEach(authorizationCode -> {
+                System.out.println(authorizationCode.getIdAuthorizationCode());
+            });
+            
+
         return authorizationCodes.get(authorizationCodes.size()-1);
     }
 
@@ -66,8 +78,10 @@ public class AuthorizationCodeServiceImpl implements AuthorizationCodeService {
     }
 
     @Override
-    public void used(Long authorizationCodeId) {
-        authorizationCodeRepository.getOne(authorizationCodeId).setUsed(true);
+    public void used(Long authorizationCode) {
+        AuthorizationCode authorizationCode1 = authorizationCodeRepository.findByAuthorizationCode(authorizationCode);
+        authorizationCode1.setUsed(true);
+        authorizationCodeRepository.save(authorizationCode1);
     }
 
     @Override

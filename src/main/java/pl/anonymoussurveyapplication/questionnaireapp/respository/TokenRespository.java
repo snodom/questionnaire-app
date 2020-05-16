@@ -10,5 +10,6 @@ import java.util.List;
 @Repository
 public interface TokenRespository extends JpaRepository<Token, Long> {
     List<Token> findAll();
+    List<Token> findTokensByQuestionnaireId(@NotNull Long questionnaireId); //******************************/
     Token findByTokenCode(@NotNull Long tokenCode);
 }

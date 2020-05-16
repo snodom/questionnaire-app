@@ -31,10 +31,21 @@ public class Controller {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/user/userExist")
-    public boolean checkUser(@Valid @RequestBody @RequestParam("login") String login, @RequestParam("password") String password){
+
+    @RequestMapping(value = "/authorizationCode/getEncryptedUserResponse",method = {RequestMethod.GET,RequestMethod.POST})
+    public String getEncryptedUserResponse(@Valid @RequestBody Long authorizationCode){
+        try{
+            return authorizationCodeService.getAuthorizationCodeByAuthorizationCode(authorizationCode).getEncryptedUserResponses();
+        }catch (Exception e){
+            return "bledny kod";
+        }
+    }
+
+
+    @RequestMapping(value = "/user/userExist",method = {RequestMethod.GET,RequestMethod.POST})
+    public boolean checkUser(@Valid @RequestBody String data){
         try {
-            return userService.checkUserData(login.trim(),password.trim());
+            return userService.checkUserData(data);
         }catch (Exception e){
             return false;
         }
@@ -53,7 +64,8 @@ public class Controller {
     @PostMapping("/userAnswer/addUserAnswer")
     public ResponseEntity<String> addUserAnswerForQuestion(@Valid @RequestBody @RequestParam("answer") String answer, @RequestParam("questionId") Long questionId, @RequestParam("authorizationCode")Long authorizationCode){
         try{
-            userAnswerService.setUserAnswer(answer,questionService.getQuestionById(questionId),authorizationCodeService.getAuthorizationCodeByAuthorizationCode(authorizationCode));
+            System.out.println(answer +" "+ questionId + " "+ authorizationCode);
+            userAnswerService.setUserAnswer(answer,questionService.getQuestionById(questionId),authorizationCode);
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("nie udalo sie dodać odpowiedzi do pytania, bad request");
         }
@@ -136,7 +148,7 @@ public class Controller {
 
     //tworzenie kodu do ankiety za pomoca tokenu, zwraca ostatni wygenerowany kod,jako string jezeli jest poprawny, jezeli nie to zwraca stringa z bledem, jako parametr ma otrzymac Long
     //tak czy siak tego strina trzeba wyswietlic
-    @GetMapping("/token/createAndGetAuthorizationCode")
+    @RequestMapping(value = "/token/createAndGetAuthorizationCode",method = {RequestMethod.GET,RequestMethod.POST})
     public String createAndGetAuthorizationCode(@Valid @RequestBody Long tokenCode){
         try{ if(tokenService.checkused(tokenCode)){
             tokenService.used(tokenCode);
@@ -150,7 +162,7 @@ public class Controller {
     }
 
     //zwraca czy podany authorization code jest uzyty czy nie
-    @GetMapping("/authorizationCode/getAuthorizationCode")
+    @RequestMapping(value = "/authorizationCode/getAuthorizationCode",method = {RequestMethod.GET,RequestMethod.POST})
     public Boolean getAuthorizationCode(@Valid @RequestBody Long authorizationCode){
         return authorizationCodeService.getAuthorizationCodeByAuthorizationCode(authorizationCode).getUsed();
     }
@@ -159,7 +171,7 @@ public class Controller {
     // i wtedy wykonujemy ta metode
 
     //if != null wykonaj, else pokaz informacje "podany kod jest nie poprawny" - trzeba zrobic na froncie ta informacje
-    @GetMapping("/userAnswer/getAllUserAnswerForQuestionnaire")
+    @RequestMapping(value = "/userAnswer/getAllUserAnswerForQuestionnaire",method = {RequestMethod.GET,RequestMethod.POST})
     public List<UserAnswer> getAllUserAnswerForQuestionnaire(@Valid @RequestBody Long authorizationCode){
         try{
             System.out.println(authorizationCodeService.getAuthorizationCodeByAuthorizationCode(authorizationCode).getQuestionnaire().getQuestionnaireId() +" + "+ authorizationCodeService.getAuthorizationCodeByAuthorizationCode(authorizationCode).getIdAuthorizationCode() );
@@ -171,7 +183,7 @@ public class Controller {
     }
     //if != null wykonaj, else pokaz informacje "podany kod jest nie poprawny" - trzeba zrobic na froncie ta informacje
 
-    @GetMapping("/question/getAllQuestionForQuestionnaire")
+    @RequestMapping(value = "/question/getAllQuestionForQuestionnaire",method = {RequestMethod.GET,RequestMethod.POST})
     public List<Question> getAllQuestionForQuestionnaire(@Valid @RequestBody Long authorizationCode){
         try{
             return questionService.getAllFromQuestionnaire(authorizationCodeService.getAuthorizationCodeByAuthorizationCode(authorizationCode).getQuestionnaire().getQuestionnaireId());
@@ -182,9 +194,9 @@ public class Controller {
 
     // wyswietlanie listy tokenow do twoerzenia kodow do wybranej ankiety
 
-    @GetMapping("/token/getAllTokensForQuestionnaire")
+    @RequestMapping(value = "/token/getAllTokensForQuestionnaire",method = {RequestMethod.GET,RequestMethod.POST})
     public List<Token> getAllTokensForQuestionnaire(@Valid @RequestBody Long questionnaireId ){
-        return tokenService.getAllForQuestionnaire(questionnaireId);
+        return tokenService.getAllByQuestionnaireId(questionnaireId);
     }
 
     // wyswietlanie wszystkich danych o ankietach - potrzebne są nazwy - beda tam pola z nazwami
@@ -193,7 +205,7 @@ public class Controller {
         return questionnaireService.getAll();
     }
     // wyswietlanie listy kodów do ankiety
-    @GetMapping("/authorizationCode/getAllAuthorizationCodesForQuestionnaire")
+    @RequestMapping(value = "/authorizationCode/getAllAuthorizationCodesForQuestionnaire",method = {RequestMethod.GET,RequestMethod.POST})
     public List<AuthorizationCode> getAllAuthorizationCodesForQuestionnaire(@Valid @RequestBody Long questionnaireId ){
         return authorizationCodeService.getAllByQuestionnaireId(questionnaireId);
     }

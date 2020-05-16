@@ -25,6 +25,9 @@ public class AuthorizationCode {
     @JoinColumn(name="questionnaire_id")
     private Questionnaire questionnaire;
 
+    @Column
+    private String encryptedUserResponses;
+
     public AuthorizationCode() {
     }
 
@@ -33,6 +36,7 @@ public class AuthorizationCode {
         this.idAuthorizationCode = getIdAuthorizationCode();
         this.used=getUsed();
         this.questionnaire =getQuestionnaire();
+        this.encryptedUserResponses = getEncryptedUserResponses();
     }
 
     public Long getAuthorizationCode() {
@@ -61,5 +65,20 @@ public class AuthorizationCode {
 
     public void setQuestionnaire(Questionnaire questionnaire) {
         this.questionnaire = questionnaire;
+    }
+
+    public void setIdAuthorizationCode(Long idAuthorizationCode) {
+        this.idAuthorizationCode = idAuthorizationCode;
+    }
+
+    public String getEncryptedUserResponses() {
+        return encryptedUserResponses;
+    }
+
+    public void setEncryptedUserResponses(String encryptedUserResponses) {
+        this.encryptedUserResponses = encryptedUserResponses;
+    }
+    public void addLinetoEncryptedUserResponses(String line){
+        this.encryptedUserResponses=getEncryptedUserResponses()+line;
     }
 }

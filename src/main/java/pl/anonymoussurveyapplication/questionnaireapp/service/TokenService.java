@@ -1,5 +1,4 @@
 package pl.anonymoussurveyapplication.questionnaireapp.service;
-
 import pl.anonymoussurveyapplication.questionnaireapp.model.Token;
 
 import java.util.List;
@@ -12,4 +11,5 @@ public interface TokenService {
     void deleteToken(Long tokenId);
     void used(Long tokenId);
     boolean checkused(Long tokenId);
+    List<Token> getAllByQuestionnaireId(Long questionnaireId);
 }
